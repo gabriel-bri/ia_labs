@@ -1,0 +1,37 @@
+# Classe responsavel pela modelagem.
+class Estado:
+    """
+    Modelagem:
+    - Estado = (cidade_atual, visitadas, caminho, custo)
+    - Ação = ir para uma cidade não visitada
+    - Objetivo = visitar todas as cidades
+    """
+    def __init__(self, cidade_atual, visitadas, caminho, custo):
+        self.cidade_atual = cidade_atual
+        self.visitadas = frozenset(visitadas)  # conjunto imutável
+        self.caminho = caminho[:]  # cópia da lista
+        self.custo = custo
+    
+    def ja_visitei_todas(self, total_cidades):
+        """
+        Verifica se ja foram visitada todas as cidades.
+        
+        Retorna: 
+            True se visitei todas, False caso contrário
+        """
+        return len(self.visitadas) == total_cidades
+    
+    def __eq__(self, outro):
+        """
+        Comparando se dois estados são iguais.
+        """
+        return (self.cidade_atual == outro.cidade_atual and 
+                self.visitadas == outro.visitadas)
+    
+    def __hash__(self):
+        """Permite colocar estados em conjuntos (sets)"""
+        return hash((self.cidade_atual, self.visitadas))
+    
+    def __repr__(self):
+        """Representação textual para debug"""
+        return f"Estado(cidade={self.cidade_atual}, visitadas={len(self.visitadas)}, custo={self.custo})"
